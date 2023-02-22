@@ -35,9 +35,6 @@ export const signInWithGooglePopup = () =>
 // export const signInWithGoogleRedirect = () =>
 //   signInWithRedirect(auth, googleProvider);
 
-export const signInWithCustomEmailAndPassword = (email, password) =>
-  signInWithEmailAndPassword(auth, email, password);
-
 export const db = getFirestore();
 
 export const createUserDocumentFromAuth = async (
@@ -79,4 +76,8 @@ export const createAuthUserWithEmailAndPassword = async (email, password) => {
   return createUserWithEmailAndPassword(auth, email, password);
 };
 
-// export const signInWith
+export const signInAuthhUserWithEmailAndPassword = async (email, password) => {
+  if (!email || !password) return;
+
+  return signInWithEmailAndPassword(auth, email, password);
+};
