@@ -7,7 +7,7 @@ import FormInput from '../form-input/form-input.component';
 
 import {
   signInAuthhUserWithEmailAndPassword,
-  createUserDocumentFromAuth,
+  // createUserDocumentFromAuth,
   signInWithGooglePopup,
 } from '../../utils/firebase/firebase.utils';
 
@@ -46,7 +46,7 @@ const SignInForm = () => {
     // const { value } = event.target;
     // console.log(formField);
     try {
-      const { user } = await signInAuthhUserWithEmailAndPassword(
+      /*const { user } = */await signInAuthhUserWithEmailAndPassword(
         email,
         password
       );
