@@ -2,7 +2,17 @@ import { useContext } from 'react';
 
 import { CartContext } from '../../contexts/cart.context';
 
-import './checkout-item.styles.scss';
+import {
+  CheckoutItemContainer,
+  CheckoutItemImage,
+  CheckoutItemImageContainer,
+  CheckoutItemName,
+  CheckoutItemPrice,
+  CheckoutItemQuantity,
+  CheckoutItemQuantityArrow,
+  CheckoutItemQuantityValue,
+  CheckoutItemRemoveButton,
+} from './checkout-item.styles';
 
 const CheckoutItem = ({ cartItem }) => {
   const { imageUrl, name, price, quantity } = cartItem;
@@ -14,26 +24,48 @@ const CheckoutItem = ({ cartItem }) => {
   const clearItemHandler = () => clearItemFromCart(cartItem);
 
   return (
-    <div className="checkout-item-container">
-      <div className="image-container">
-        <img src={imageUrl} alt={name} />
-      </div>
-      <span className="name">{name}</span>
-      <span className="quantity">
-        <div className="arrow" onClick={removeItemCountHandler}>
+    <CheckoutItemContainer>
+      <CheckoutItemImageContainer>
+        <CheckoutItemImage src={imageUrl} alt={name} />
+      </CheckoutItemImageContainer>
+      <CheckoutItemName>{name}</CheckoutItemName>
+      <CheckoutItemQuantity>
+        <CheckoutItemQuantityArrow onClick={removeItemCountHandler}>
           &#10094;
-        </div>
-        <span className="value">{quantity}</span>
-        <div className="arrow" onClick={addItemCountHandler}>
+        </CheckoutItemQuantityArrow>
+        <CheckoutItemQuantityValue>{quantity}</CheckoutItemQuantityValue>
+        <CheckoutItemQuantityArrow onClick={addItemCountHandler}>
           &#10095;
-        </div>
-      </span>
-      <span className="price">{price}</span>
-      <div className="remove-button" onClick={clearItemHandler}>
+        </CheckoutItemQuantityArrow>
+      </CheckoutItemQuantity>
+      <CheckoutItemPrice>{price}</CheckoutItemPrice>
+      <CheckoutItemRemoveButton onClick={clearItemHandler}>
         &#10005;
-      </div>
-    </div>
+      </CheckoutItemRemoveButton>
+    </CheckoutItemContainer>
   );
+
+  // return (
+  //   <div className="checkout-item-container">
+  //     <div className="image-container">
+  //       <img src={imageUrl} alt={name} />
+  //     </div>
+  //     <span className="name">{name}</span>
+  //     <span className="quantity">
+  //       <div className="arrow" onClick={removeItemCountHandler}>
+  //         &#10094;
+  //       </div>
+  //       <span className="value">{quantity}</span>
+  //       <div className="arrow" onClick={addItemCountHandler}>
+  //         &#10095;
+  //       </div>
+  //     </span>
+  //     <span className="price">{price}</span>
+  //     <div className="remove-button" onClick={clearItemHandler}>
+  //       &#10005;
+  //     </div>
+  //   </div>
+  // );
 };
 
 export default CheckoutItem;

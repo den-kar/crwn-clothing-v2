@@ -12,7 +12,7 @@ import SignUpForm from '../../components/sign-up-form/sign-up-form.component';
 //   createUserDocumentFromAuth,
 // } from '../../utils/firebase/firebase.utils';
 
-import './authentication.styles.scss';
+import { AuthenticationContainer } from './authentication.styles.SignUpContainer.jsx';
 
 const SignIn = () => {
   // useEffect(() => {
@@ -24,7 +24,7 @@ const SignIn = () => {
   //     }
   //   })();
   // }, []);
-  
+
   // const logGoogleUser = async () => {
   //   const { user } = await signInWithGooglePopup();
   //   const userDocRef = await createUserDocumentFromAuth(user);
@@ -35,19 +35,26 @@ const SignIn = () => {
   // };
 
   return (
-    <div className="authentication-container">
-      {/* <h1>Sign In Page</h1> */}
-      {/* <button onClick={logGoogleUser}>Sign in with Google Popup</button> */}
-      {/* <button onClick={signInWithGoogleRedirect}>
-        Sign in with Google Redirect
-      </button> */}
-      {/* <button onClick={logGoogleRedirectUser}>
-        Sign in with Google Redirect
-      </button> */}
+    <AuthenticationContainer>
       <SignInForm />
       <SignUpForm />
-    </div>
+    </AuthenticationContainer>
   );
+
+  // return (
+  //   <div className="authentication-container">
+  //     {/* <h1>Sign In Page</h1> */}
+  //     {/* <button onClick={logGoogleUser}>Sign in with Google Popup</button> */}
+  //     {/* <button onClick={signInWithGoogleRedirect}>
+  //       Sign in with Google Redirect
+  //     </button> */}
+  //     {/* <button onClick={logGoogleRedirectUser}>
+  //       Sign in with Google Redirect
+  //     </button> */}
+  //     <SignInForm />
+  //     <SignUpForm />
+  //   </div>
+  // );
 };
 
 export default SignIn;
