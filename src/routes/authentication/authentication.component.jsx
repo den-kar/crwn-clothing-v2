@@ -12,7 +12,7 @@ import SignUpForm from '../../components/sign-up-form/sign-up-form.component';
 //   createUserDocumentFromAuth,
 // } from '../../utils/firebase/firebase.utils';
 
-import { AuthenticationContainer } from './authentication.styles.SignUpContainer.jsx';
+import { AuthenticationContainer } from './authentication.styles.jsx';
 
 const SignIn = () => {
   // useEffect(() => {

@@ -1,10 +1,18 @@
-import { useContext } from 'react';
+// import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Button from '../button/button.component';
 import CartItem from '../cart-item/cart-item.component';
 
-import { CartContext } from '../../contexts/cart.context';
+// import { CartContext } from '../../contexts/cart.context';
+import { setIsCartOpen } from '../../store/cart/cart.action';
+// import { toggleCartVisibility } from '../../store/cart/cart.action';
+import {
+  selectCartItems,
+  selectIsCartOpen,
+} from '../../store/cart/cart.selector';
+// import { selectCart } from '../../store/cart/cart.selector';
 
 import {
   CartDropdownContainer,
@@ -13,20 +21,32 @@ import {
 } from './cart-dropdown.styles';
 
 const CartDropdown = () => {
-  const { cartItems, setIsCartOpen } = useContext(CartContext);
+  const dispatch = useDispatch();
+  const cartItems = useSelector(selectCartItems);
+  const isCartOpen = useSelector(selectIsCartOpen);
+  // const { cartItems, isCartOpen } = useSelector(selectCart);
+
+  // const { cartItems, setIsCartOpen } = useContext(CartContext);
   const navigate = useNavigate();
 
   const goToCheckoutHandler = () => {
     navigate('/checkout');
-    setIsCartOpen(false);
+    dispatch(setIsCartOpen(!isCartOpen));
+    // dispatch(toggleCartVisibility());
   };
+  // const goToCheckoutHandler = () => {
+  //   navigate('/checkout');
+  //   setIsCartOpen();
+  // };
 
   return (
     <CartDropdownContainer>
       <CartItemsContainer>
-        {cartItems.length > 0 ? cartItems.map((item) => (
-          <CartItem cartItem={item} key={item.id} />
-        )) : (<CartDropdownEmpty>Your cart is empty</CartDropdownEmpty>)}
+        {cartItems.length > 0 ? (
+          cartItems.map((item) => <CartItem cartItem={item} key={item.id} />)
+        ) : (
+          <CartDropdownEmpty>Your cart is empty</CartDropdownEmpty>
+        )}
       </CartItemsContainer>
       {/* <Link to="/checkout"> */}
       <Button onClick={goToCheckoutHandler}>Go To Checkout</Button>

@@ -1,10 +1,22 @@
+import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import Home from './routes/home/home.component';
 import Authentication from './routes/authentication/authentication.component';
 import Navigation from './routes/navigation/navigation.component';
 import Shop from './routes/shop/shop.component';
 import Checkout from './routes/checkout/checkout.component';
+// import { createAction } from './utils/reducer/reducer.utils';
+// import { setCurrentUser } from './store/user/user.action'
+// import { setCategoriesMap } from './store/categories/categories.action'
+// import {
+//   // createUserDocumentFromAuth,
+//   // onAuthStateChangedListener,
+//   // getCategoriesAndDocuments,
+//   getCurrentUser,
+// } from './utils/firebase/firebase.utils';
+import { checkUserSession } from './store/user/user.action';
 
 // const Navigation = () => {
 //   return (
@@ -24,6 +36,35 @@ import Checkout from './routes/checkout/checkout.component';
 // };
 
 const App = () => {
+  const dispatch = useDispatch();
+  
+  useEffect(() => {
+    dispatch(checkUserSession());
+    // getCurrentUser();
+
+    // const unsubscribe = onAuthStateChangedListener((user) => {
+    //   // console.log(user);
+    //   if (user) {
+    //     createUserDocumentFromAuth(user);
+    //   }
+    //   dispatch(setCurrentUser(user));
+    // });
+
+    // (async () => {
+    //   const categoriesMap = await getCategoriesAndDocuments();
+    //   dispatch(setCategoriesMap(categoriesMap));
+    // })();
+
+    // return unsubscribe;
+  }, [dispatch]);
+
+  // useEffect(() => {
+  //   (async () => {
+  //     const categoriesMap = await getCategoriesAndDocuments();
+  //     dispatch(setCategoriesMap(categoriesMap));
+  //   })();
+  // }, [dispatch]);
+
   return (
     <Routes>
       <Route path="/" element={<Navigation />}>

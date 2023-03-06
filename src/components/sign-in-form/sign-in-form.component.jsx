@@ -1,15 +1,18 @@
 import { useState /*, useContext*/ } from 'react';
+import { useDispatch } from 'react-redux';
 
 import Button, { BUTTON_TYPE_CLASSES } from '../button/button.component';
 import FormInput from '../form-input/form-input.component';
 
 // import { UserContext } from '../../contexts/user.context';
 
-import {
-  signInAuthhUserWithEmailAndPassword,
-  // createUserDocumentFromAuth,
-  signInWithGooglePopup,
-} from '../../utils/firebase/firebase.utils';
+import { emailSignInStart, goggleSignInStart } from '../../store/user/user.action';
+
+// import {
+//   signInAuthhUserWithEmailAndPassword,
+//   // createUserDocumentFromAuth,
+//   signInWithGooglePopup,
+// } from '../../utils/firebase/firebase.utils';
 
 import {
   SignInButtonContainer,
@@ -25,6 +28,8 @@ const SignInForm = () => {
   const [formField, setFormFields] = useState(defaultSignInFields);
   const { email, password } = formField;
 
+  const dispatch = useDispatch();
+
   // const { setCurrentUser } = useContext(UserContext);
 
   const resetFormFields = () => {
@@ -38,7 +43,8 @@ const SignInForm = () => {
   };
 
   const signInWithGoogle = async () => {
-    await signInWithGooglePopup();
+    dispatch(goggleSignInStart());
+    // await signInWithGooglePopup();
     // const { user } = await signInWithGooglePopup();
     // await createUserDocumentFromAuth(user);
     // setCurrentUser(user);
@@ -46,35 +52,42 @@ const SignInForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // const { value } = event.target;
-    // console.log(formField);
     try {
-      /*const { user } = */ await signInAuthhUserWithEmailAndPassword(
-        email,
-        password
-      );
-      // setCurrentUser(user);
-      // console.log(response);
-      // await createUserDocumentFromAuth(user, { displayName });
+      dispatch(emailSignInStart(email, password));
       resetFormFields();
     } catch (error) {
-      switch (error.code) {
-        case 'auth/wrong-password':
-          alert('incorrect password for email');
-          break;
-        case 'auth/user-not-found':
-          alert('no user associated with this email');
-          break;
-        default:
-          console.log(error);
-      }
-      // console.log(error);
-      // if (error.code === 'auth/email-already-in-use') {
-      //   alert('Cannot create user, email already in use');
-      // } else {
-      alert('user login encountered an error', error);
-      // }
+      console.log('user sign in failed', error);
     }
+
+    // // const { value } = event.target;
+    // // console.log(formField);
+    // try {
+    //   /*const { user } = */ await signInAuthhUserWithEmailAndPassword(
+    //     email,
+    //     password
+    //   );
+    //   // setCurrentUser(user);
+    //   // console.log(response);
+    //   // await createUserDocumentFromAuth(user, { displayName });
+    //   resetFormFields();
+    // } catch (error) {
+    //   switch (error.code) {
+    //     case 'auth/wrong-password':
+    //       alert('incorrect password for email');
+    //       break;
+    //     case 'auth/user-not-found':
+    //       alert('no user associated with this email');
+    //       break;
+    //     default:
+    //       console.log(error);
+    //   }
+    //   // console.log(error);
+    //   // if (error.code === 'auth/email-already-in-use') {
+    //   //   alert('Cannot create user, email already in use');
+    //   // } else {
+    //   alert('user login encountered an error', error);
+    //   // }
+    // }
   };
 
   return (
