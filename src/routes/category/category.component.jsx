@@ -1,60 +1,33 @@
-import { /*useContext, */ useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState, useEffect, Fragment } from 'react';
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 import ProductCard from '../../components/product-card/product-card.component';
 
-import {
-  selectCategoriesMap,
-  selectCategoriesIsLoading,
-} from '../../store/categories/categories.selector';
-// import { setCategoriesMap } from '../../store/categories/categories.action';
+import { selectCategoriesMap } from '../../store/categories/category.selector';
 
-// import { CategoriesContext } from '../../contexts/categories.context';
-
-import { CategoryContainer, CategoryTitle } from './category.styles';
-import Spinner from '../../components/spinner/spinner.component';
+import { CategoryContainer, Title } from './category.styles';
 
 const Category = () => {
   const { category } = useParams();
-  // console.log('render/re-rendering category');
   const categoriesMap = useSelector(selectCategoriesMap);
-  const isLoading = useSelector(selectCategoriesIsLoading);
-  // const { categoriesMap } = useContext(CategoriesContext);
   const [products, setProducts] = useState(categoriesMap[category]);
 
   useEffect(() => {
-    // console.log('category.component setProducts fired');
     setProducts(categoriesMap[category]);
   }, [category, categoriesMap]);
 
   return (
-    <>
-      <CategoryTitle>{category}</CategoryTitle>
-      {isLoading ? (
-        <Spinner />
-      ) : (
-        <CategoryContainer>
-          {products &&
-            products.map((product) => (
-              <ProductCard product={product} key={product.id} />
-            ))}
-        </CategoryContainer>
-      )}
-    </>
+    <Fragment>
+      <Title>{category.toUpperCase()}</Title>
+      <CategoryContainer>
+        {products &&
+          products.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+      </CategoryContainer>
+    </Fragment>
   );
-
-  // return (
-  //   <>
-  //     <h2 className="category-title">{category}</h2>
-  //     <div className="category-container">
-  //       {products &&
-  //         products.map((product) => (
-  //           <ProductCard product={product} key={product.id} />
-  //         ))}
-  //     </div>
-  //   </>
-  // );
 };
 
 export default Category;

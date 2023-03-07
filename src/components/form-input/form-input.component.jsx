@@ -1,36 +1,16 @@
-import {
-  FormInputContainer,
-  FormInputGroup,
-  FormInputLabel,
-} from './form-input.styles';
+import { FormInputLabel, Input, Group } from './form-input.styles';
 
-// const FormInput = ({ label, otherProps }) => {
 const FormInput = ({ label, ...otherProps }) => {
   return (
-    <FormInputGroup>
-      <FormInputContainer {...otherProps} />
+    <Group>
+      <Input {...otherProps} />
       {label && (
-        <FormInputLabel shrink={otherProps.value?.length}>
+        <FormInputLabel shrink={otherProps.value.length}>
           {label}
         </FormInputLabel>
       )}
-    </FormInputGroup>
+    </Group>
   );
-
-  // return (
-  //   <div className="group">
-  //     <input className="form-input" {...otherProps} />
-  //     {label && (
-  //       <label
-  //         className={`${
-  //           otherProps.value?.length ? 'shrink' : ''
-  //         } form-input-label`}
-  //       >
-  //         {label}
-  //       </label>
-  //     )}
-  //   </div>
-  // );
 };
 
 export default FormInput;

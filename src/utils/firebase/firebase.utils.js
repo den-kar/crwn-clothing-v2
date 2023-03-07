@@ -1,8 +1,7 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
 import {
   getAuth,
-  // signInWithRedirect,
+  signInWithRedirect,
   signInWithPopup,
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
@@ -21,7 +20,6 @@ import {
   getDocs,
 } from 'firebase/firestore';
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: 'AIzaSyCvf-Rwyr8DhNpzhU0dXaWIVB7N-aFSMa8',
   authDomain: 'crwn-clothing-db-5bb72.firebaseapp.com',
@@ -31,10 +29,10 @@ const firebaseConfig = {
   appId: '1:673416136163:web:8fbcbc802fe453ee814cd6',
 };
 
-// Initialize Firebase
-/*const firebaseApp = */ initializeApp(firebaseConfig);
+const firebaseApp = initializeApp(firebaseConfig);
 
 const googleProvider = new GoogleAuthProvider();
+
 googleProvider.setCustomParameters({
   prompt: 'select_account',
 });
@@ -42,15 +40,15 @@ googleProvider.setCustomParameters({
 export const auth = getAuth();
 export const signInWithGooglePopup = () =>
   signInWithPopup(auth, googleProvider);
-
-// export const signInWithGoogleRedirect = () =>
-//   signInWithRedirect(auth, googleProvider);
+export const signInWithGoogleRedirect = () =>
+  signInWithRedirect(auth, googleProvider);
 
 export const db = getFirestore();
 
 export const addCollectionAndDocuments = async (
   collectionKey,
-  objectsToAdd
+  objectsToAdd,
+  field
 ) => {
   const collectionRef = collection(db, collectionKey);
   const batch = writeBatch(db);
@@ -61,7 +59,7 @@ export const addCollectionAndDocuments = async (
   });
 
   await batch.commit();
-  // console.log('done adding collection and documents to firebase ...');
+  console.log('done');
 };
 
 export const getCategoriesAndDocuments = async () => {
@@ -69,37 +67,7 @@ export const getCategoriesAndDocuments = async () => {
   const q = query(collectionRef);
 
   const querySnapshot = await getDocs(q);
-
-  return querySnapshot.docs.map((docSnapShot) => docSnapShot.data());
-
-  // const categoriesMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
-  //   const { title, items } = docSnapshot.data();
-  //   acc[title.toLowerCase()] = items;
-  //   return acc;
-  // }, {});
-  // // console.log('categoriesMap', categoriesMap);
-  // return categoriesMap;
-
-  // const CATEGORIES_KEYS = ['jackets', 'mens', 'sneakers', 'womens', 'hats'];
-  // const catMap = Object.keys(categoriesMap)
-  //   .filter((key) => CATEGORIES_KEYS.includes(key))
-  //   .reduce((obj, key) => {
-  //     obj[key] = categoriesMap[key];
-  //     return obj;
-  //   }, {});
-  // console.log('catMap', catMap);
-
-  // const CATEGORIES_KEYS = ['jackets', 'mens', 'sneakers', 'womens', 'hats'];
-  // const categoriesMap = Object.keys(querySnapshot.docs)
-  //   .filter((key) => CATEGORIES_KEYS.includes(key))
-  //   .reduce((acc, docSnapshot) => {
-  //     const { title, items } = docSnapshot.data();
-  //     acc[title.toLowerCase()] = items;
-  //     return acc;
-  //   }, {});
-  // console.log('categoriesMap', categoriesMap);
-  // console.log(querySnapshot.dpcs);
-  // return catMap;
+  return querySnapshot.docs.map((docSnapshot) => docSnapshot.data());
 };
 
 export const createUserDocumentFromAuth = async (
@@ -110,13 +78,7 @@ export const createUserDocumentFromAuth = async (
 
   const userDocRef = doc(db, 'users', userAuth.uid);
 
-  // console.log(userDocRef);
-
-  // const userSnapshot = await getDoc(userDocRef);
-  let userSnapshot = await getDoc(userDocRef);
-
-  // console.log(userSnapshot);
-  // console.log(userSnapshot.exists());
+  const userSnapshot = await getDoc(userDocRef);
 
   if (!userSnapshot.exists()) {
     const { displayName, email } = userAuth;
@@ -129,42 +91,27 @@ export const createUserDocumentFromAuth = async (
         createdAt,
         ...additionalInformation,
       });
-      userSnapshot = await getDoc(userDocRef);
     } catch (error) {
       console.log('error creating the user', error.message);
     }
   }
 
-  return userSnapshot;
-  // return userDocRef;
+  return userDocRef;
 };
 
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
 
-  return createUserWithEmailAndPassword(auth, email, password);
+  return await createUserWithEmailAndPassword(auth, email, password);
 };
 
-export const signInAuthhUserWithEmailAndPassword = async (email, password) => {
+export const signInAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
 
-  return signInWithEmailAndPassword(auth, email, password);
+  return await signInWithEmailAndPassword(auth, email, password);
 };
 
-export const signOutUser = () => signOut(auth);
+export const signOutUser = async () => await signOut(auth);
 
-// export const onAuthStateChangedListener = (callback) =>
-//   onAuthStateChanged(auth, callback);
-
-export const getCurrentUser = () => {
-  return new Promise((resolve, reject) => {
-    const unsubscribe = onAuthStateChanged(
-      auth,
-      (userAuth) => {
-        unsubscribe();
-        resolve(userAuth);
-      },
-      reject
-    );
-  });
-};
+export const onAuthStateChangedListener = (callback) =>
+  onAuthStateChanged(auth, callback);

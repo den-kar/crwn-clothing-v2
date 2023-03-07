@@ -1,48 +1,26 @@
-import ProductsCard from '../product-card/product-card.component';
+import ProductCard from '../product-card/product-card.component';
 
 import {
-  CategoryPreviewBody,
   CategoryPreviewContainer,
-  LinkToCategory,
+  Title,
+  Preview,
 } from './category-preview.styles';
 
-const CategoryPreview = ({ title, prodocts }) => {
+const CategoryPreview = ({ title, products }) => {
   return (
     <CategoryPreviewContainer>
       <h2>
-        <LinkToCategory to={title}>
-          {title.toUpperCase()}
-        </LinkToCategory>
+        <Title to={title}>{title.toUpperCase()}</Title>
       </h2>
-      <CategoryPreviewBody>
-        {prodocts
+      <Preview>
+        {products
           .filter((_, idx) => idx < 4)
           .map((product) => (
-            <ProductsCard product={product} key={product.id} />
+            <ProductCard key={product.id} product={product} />
           ))}
-      </CategoryPreviewBody>
+      </Preview>
     </CategoryPreviewContainer>
   );
-
-  // const navigate = useNavigate();
-
-  // const goToCategoryHandler = () => navigate(title.toLowerCase());
-  // return (
-  //   <div className="category-preview-container">
-  //     <h2>
-  //       <Link className="title" to={title}>
-  //         {title.toUpperCase()}
-  //       </Link>
-  //     </h2>
-  //     <div className="preview">
-  //       {prodocts
-  //         .filter((_, idx) => idx < 4)
-  //         .map((product) => (
-  //           <ProductsCard product={product} key={product.id} />
-  //         ))}
-  //     </div>
-  //   </div>
-  // );
 };
 
 export default CategoryPreview;
