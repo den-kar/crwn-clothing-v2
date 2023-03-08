@@ -28,7 +28,7 @@ const PaymentForm = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ amount }),
+      body: JSON.stringify({ amount: amount * 100 }),
     }).then((res) => res.json());
 
     const {
@@ -36,6 +36,7 @@ const PaymentForm = () => {
     } = response;
     // const clientSecret = response.paymentIntent.client_secret;
 
+    console.log('currentUser', currentUser);
     const paymentResult = await stripe.confirmCardPayment(client_secret, {
       payment_method: {
         card: elements.getElement(CardElement),
